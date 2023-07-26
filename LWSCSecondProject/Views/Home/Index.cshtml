@@ -1,0 +1,43 @@
+﻿@{
+  
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+
+
+<button id="btnCheck" type="button" class="btn btn-info">
+Load Data by Ajax
+</button>
+
+
+<div id="dvAjaxContent"></div>
+
+@section Scripts{
+    
+    <script>
+        $(function(){
+            $('#btnCheck').click(function(e){
+            
+                e.preventDefault();
+
+
+                $('#dvAjaxContent').load('@Url.Action("GetPartial")');
+
+
+            });
+        });
+    </script>
+}
+
+@section MySection{
+
+    
+    <div class="alert alert-info"> MySection  content from  Index @ViewBag.X </div>
+}
+
+

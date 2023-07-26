@@ -1,0 +1,35 @@
+﻿@{
+    Layout = "_Layout";
+}
+
+@{
+    var beforMsg = "Before Body";
+    var afterMsg = "After Body";
+
+}
+<partial name="_InfoAlert"  model="beforMsg"/>
+@RenderBody()
+
+<partial name="_InfoAlert" model="afterMsg" />
+
+
+@section Scripts{
+
+    @await RenderSectionAsync("Scripts",required:false)
+
+}
+
+@section MySection{
+
+    @await RenderSectionAsync("MySection",required:false)
+
+    @if (!IsSectionDefined("MySection"))
+    {
+
+    
+        var msg = "Default MySection Value";
+    
+        <partial name="_InfoAlert" model="msg"></partial>
+
+}
+}
