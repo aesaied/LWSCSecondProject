@@ -1,5 +1,6 @@
 ﻿using LWSCSecondProject.Entities;
 using LWSCSecondProject.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -7,6 +8,7 @@ using Microsoft.Extensions.Configuration.EnvironmentVariables;
 
 namespace LWSCSecondProject.Controllers
 {
+    [Authorize]
     public class ProductController : Controller
     {
         private readonly MyDbContext _dbContext;

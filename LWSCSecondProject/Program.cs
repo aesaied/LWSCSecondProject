@@ -1,5 +1,8 @@
 using LWSCSecondProject.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using LWSCSecondProject.Services;
 
 namespace LWSCSecondProject
 {
@@ -12,6 +15,7 @@ namespace LWSCSecondProject
 
             //  to get connection string 
 
+            builder.Services.AddTransient<IEmailSender,EmailSender>();  
             var  connStr= builder.Configuration.GetConnectionString("MyConn");
 
             builder.Services.AddDbContext<MyDbContext>(options =>
@@ -20,8 +24,28 @@ namespace LWSCSecondProject
             }
             );
 
+            //builder.Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<MyDbContext>();
+
+           // builder.Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<MyDbContext>();
+
+
+            // Register Aspnet identity
+            builder.Services.AddIdentity<AppUser, AppRole>(options => {
+            
+                options.Password.RequireNonAlphanumeric = false;
+              
+            
+            }).AddEntityFrameworkStores<MyDbContext>().AddDefaultTokenProviders();
+
+
+
+            builder.Services.ConfigureApplicationCookie(options => {
+
+                options.LoginPath = "/Identity/Account/Login";
+            });
+        
             // Add services to the container.
-            builder.Services.AddControllersWithViews();
+            builder.Services.AddMvc();
 
             var app = builder.Build();
 
@@ -36,10 +60,13 @@ namespace LWSCSecondProject
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            app.UseAuthentication();
+
             app.UseRouting();
 
             app.UseAuthorization();
 
+            app.MapRazorPages();
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");

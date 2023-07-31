@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace LWSCSecondProject.Entities
 {
-    public class MyDbContext: DbContext
+    public class MyDbContext: IdentityDbContext<AppUser,AppRole,string>
     {
 
 
@@ -18,7 +19,9 @@ namespace LWSCSecondProject.Entities
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder); 
+           base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<AppRole>().ToTable("AppRoles");
 
             modelBuilder.Entity<ProductCategory>()
                 .HasMany(p => p.Products)
