@@ -25,12 +25,21 @@ namespace LWSCSecondProject.Entities
                 .WithOne(s=>s.Category).OnDelete(DeleteBehavior.Restrict);
 
 
+             
+
+            //modelBuilder.Entity<Product>().Property(p => p.Name).has;
             modelBuilder.Entity<ProductCategory>().HasData(
 
                 new ProductCategory() {  Id=1 , Name= "Category 1"},
                 new ProductCategory() { Id = 2, Name = "Category 2" },
                 new ProductCategory() { Id = 3, Name = "Category 3" }
 
+
+                );
+
+            modelBuilder.Entity<Product>().HasData(
+                new Product() {Id=1,  CategoryId=1, Name="Product 1" , Description="Product Description" ,  Price=10 },
+                new Product() { Id = 2, CategoryId = 2, Name = "Product 2", Description = "Product Description", Price = 50 }
 
                 );
         }
