@@ -18,6 +18,12 @@ namespace LWSCSecondProject.Controllers
             return View();
         }
 
+
+        public IActionResult TestSignalR()
+        {
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();

@@ -17,10 +17,21 @@ Load Data by Ajax
 
 <div id="dvAjaxContent"></div>
 
+
+<button id="btnNotify" class="btn btn-success">Notify Clients</button>
+
 @section Scripts{
     
+
+
     <script>
         $(function(){
+
+            $('#btnNotify').click(function(e){
+            
+                e.preventDefault();
+                sendNotifcation('Notifcation from  Home page');
+            });
             $('#btnCheck').click(function(e){
             
                 e.preventDefault();

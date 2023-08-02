@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace LWSCSecondProject.Entities
 {
@@ -6,5 +7,7 @@ namespace LWSCSecondProject.Entities
     {
 
         //  Add additional  properties
+
+        public  string? FullName { get; set; }
     }
 }

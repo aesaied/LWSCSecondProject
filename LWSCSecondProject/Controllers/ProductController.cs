@@ -1,10 +1,14 @@
 ﻿using LWSCSecondProject.Entities;
+using LWSCSecondProject.Hubs;
 using LWSCSecondProject.Models;
+using LWSCSecondProject.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration.EnvironmentVariables;
+using Newtonsoft.Json;
 
 namespace LWSCSecondProject.Controllers
 {
@@ -12,10 +16,13 @@ namespace LWSCSecondProject.Controllers
     public class ProductController : Controller
     {
         private readonly MyDbContext _dbContext;
+        private readonly INotificationManager _notificationManager;
+       
 
-        public ProductController(MyDbContext dbContext)
+        public ProductController(MyDbContext dbContext,  INotificationManager notificationManager)
         {
             _dbContext = dbContext;
+            _notificationManager=notificationManager;
         }
 
         public async Task<IActionResult> Index(string? name)
@@ -23,6 +30,7 @@ namespace LWSCSecondProject.Controllers
             //Method Syntax
             var products =  _dbContext.Products.AsQueryable();
 
+          
 
             if (!string.IsNullOrWhiteSpace(name))
             {
@@ -39,6 +47,28 @@ namespace LWSCSecondProject.Controllers
             //var  products2= await (from a in _dbContext.Products select a).ToListAsync();
 
             return View(productList);
+        }
+
+
+        public async Task<IActionResult> TestHttpClient()
+        {
+            HttpClient client = new HttpClient() { BaseAddress = new Uri("https://localhost:7259/") };
+
+            var response = await client.GetAsync("api/products");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var productString = await response.Content.ReadAsStringAsync();
+
+                var products2 = JsonConvert.DeserializeObject<List<Product>>(productString);
+
+                return Json(products2);
+            }
+
+
+            return Content("Error");
+
+           
         }
 
 
@@ -114,6 +144,8 @@ namespace LWSCSecondProject.Controllers
                         await _dbContext.SaveChangesAsync();
 
                         TempData["MSG"] = $"Product added successfuly";
+
+                      await  _notificationManager.Notify($"New Product '{product.Name}' was added!");
                         return RedirectToAction("Index");
                     }
 

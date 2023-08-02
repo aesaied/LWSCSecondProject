@@ -45,6 +45,9 @@ namespace LWSCSecondProject.Entities
                 new Product() { Id = 2, CategoryId = 2, Name = "Product 2", Description = "Product Description", Price = 50 }
 
                 );
+
+
+            modelBuilder.Entity<AppUser>().Property(p => p.FullName).HasDefaultValueSql("'Unknow User'");
         }
     }
 }
