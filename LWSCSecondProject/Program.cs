@@ -15,6 +15,29 @@ namespace LWSCSecondProject
             var builder = WebApplication.CreateBuilder(args);
 
 
+
+            //  enable cors 
+
+            var policy = "MY_CORS_POLICY";
+
+
+            builder.Services.AddCors(options => {
+
+                options.AddPolicy(policy, p =>
+                {
+                    var sites = builder.Configuration.GetSection("AllowedSites").Get<string[]>();
+                    p.WithOrigins(sites).AllowAnyHeader()
+                            .AllowAnyMethod(); ;
+                });
+
+                //options.AddPolicy(policy, builder => {
+
+                //    builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                //});
+            
+            });
+
+
             //  to get connection string 
 
             builder.Services.AddTransient<IEmailSender,EmailSender>();  
@@ -61,8 +84,13 @@ namespace LWSCSecondProject
             // Add services to the container.
             builder.Services.AddMvc();
 
-            var app = builder.Build();
 
+
+
+           
+
+            var app = builder.Build();
+            app.UseCors(policy);
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
@@ -73,6 +101,8 @@ namespace LWSCSecondProject
              
             }
 
+
+          
             app.UseSwagger();
             app.UseSwaggerUI();
 

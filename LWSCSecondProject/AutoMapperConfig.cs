@@ -11,6 +11,8 @@ namespace LWSCSecondProject
             CreateMap<Product,ProductViewModel>().ReverseMap();
             CreateMap<Product, ProductUpdateViewModel>().ReverseMap();
 
+            CreateMap<ProductCategory, CategoryViewModel>().ReverseMap();
+
         }
     }
 }

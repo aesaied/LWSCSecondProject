@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using LWSCSecondProject.Entities;
 using LWSCSecondProject.Models;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,8 @@ namespace LWSCSecondProject.Controllers.API
 {
     [Route("api/[controller]")]
      [ApiController]
+
+   
     public class ProductsController : ControllerBase
     {
         private readonly MyDbContext _dbContext;
