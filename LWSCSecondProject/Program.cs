@@ -21,6 +21,8 @@ namespace LWSCSecondProject
             var policy = "MY_CORS_POLICY";
 
 
+            //builder.Services();
+
             builder.Services.AddCors(options => {
 
                 options.AddPolicy(policy, p =>
